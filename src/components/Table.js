@@ -1,20 +1,31 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Table() {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [textFilter, setTitleFilter] = useState('');
 
   useEffect(() => {
     const fetchTable = async () => {
-      const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const response = await fetch(
+        'https://swapi-trybe.herokuapp.com/api/planets/',
+      );
       const data = await response.json();
       console.log(data);
       setData(data.results);
+      setFilteredData(data.results);
     };
     fetchTable();
   }, []);
 
+  useEffect(() => {
+    const filteredTitleData = data.filter((item) =>
+    item.name.toLowerCase().includes(textFilter));
+    setData(filteredTitleData);
+  }, [textFilter]);
+
   const handleFilter = ({ target }) => {
-    console.log(target.value);
+    setTitleFilter(target.value.toLowerCase());
   };
 
   return (
@@ -32,6 +43,7 @@ function Table() {
             <option>surface_water</option>
           </select>
         </label>
+
         <label>
           Operador
           <select data-testid="comparison-filter">
@@ -40,11 +52,13 @@ function Table() {
             <option>igual a</option>
           </select>
         </label>
+
         <label>
           <input type="number" data-testid="value-filter" />
-          <button type="submit" data-testid="button-filter">Filtrar</button>
+          <button type="submit" data-testid="button-filter">
+            Filtrar
+          </button>
         </label>
-
       </form>
       <table>
         <thead>
@@ -65,7 +79,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <tr key={ item.name }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>
