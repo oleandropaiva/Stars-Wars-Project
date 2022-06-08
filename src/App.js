@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
 import Table from './components/Table';
+import StarWarsProvider from './Context/StarWarsProvider';
 
 function App() {
   return (
-    <div className="App">
-      <Table />
-    </div>
+    <StarWarsProvider>
+      <div className="App">
+        <Table />
+      </div>
+    </StarWarsProvider>
   );
 }
 export default App;

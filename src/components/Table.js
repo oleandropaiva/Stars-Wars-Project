@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { /* useContext, */ useEffect, useState } from 'react';
+// import StarsWarsContext from '../Context/StarsWarsContext';
 
 function Table() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [textFilter, setTitleFilter] = useState('');
+
+ /*  const { data, setData } useContext(StarsWarsContext) */
 
   useEffect(() => {
     const fetchTable = async () => {
@@ -23,6 +26,10 @@ function Table() {
       .includes(textFilter));
     setData(filteredTitleData);
   }, [textFilter]);
+
+  // const handleClick = () => {
+  //   setData([...data, textFilter]);
+  // };
 
   const handleFilter = ({ target }) => {
     setTitleFilter(target.value.toLowerCase());
