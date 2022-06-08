@@ -19,8 +19,8 @@ function Table() {
   }, []);
 
   useEffect(() => {
-    const filteredTitleData = data.filter((item) =>
-    item.name.toLowerCase().includes(textFilter));
+    const filteredTitleData = data.filter((item) => item.name.toLowerCase()
+      .includes(textFilter));
     setData(filteredTitleData);
   }, [textFilter]);
 
@@ -32,7 +32,7 @@ function Table() {
     <div>
       <form>
         <input type="text" placeholder="Search" onChange={ handleFilter } />
-        <label>
+        <label htmlFor="textFilter">
           {' '}
           Coluna
           <select data-testid="column-filter">
@@ -43,8 +43,7 @@ function Table() {
             <option>surface_water</option>
           </select>
         </label>
-
-        <label>
+        <label htmlFor="order-filter">
           Operador
           <select data-testid="comparison-filter">
             <option>maior que</option>
@@ -53,7 +52,7 @@ function Table() {
           </select>
         </label>
 
-        <label>
+        <label htmlFor="value-filter">
           <input type="number" data-testid="value-filter" />
           <button type="submit" data-testid="button-filter">
             Filtrar
