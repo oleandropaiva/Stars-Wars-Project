@@ -27,7 +27,7 @@ function Table() {
   useEffect(() => {
     const filteredTitleData = data.filter((item) => item.name.toLowerCase()
       .includes(textFilter));
-    setData(filteredTitleData);
+    setFilteredData(filteredTitleData);
   }, [data, textFilter]);
 
   // const handleClick = () => {
