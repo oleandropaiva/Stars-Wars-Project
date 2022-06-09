@@ -5,18 +5,21 @@ function Table() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [textFilter, setTitleFilter] = useState('');
+  const [filterType, setFilterType] = useState('name');
+  const [operator, setOperator] = useState('maior que');
+  const [value, setValue] = useState(0);
+  const [numericFilter, setNumericFilter] = useState([]);
 
- /*  const { data, setData } useContext(StarsWarsContext) */
+  /*  const { data, setData } useContext(StarsWarsContext) */
 
   useEffect(() => {
     const fetchTable = async () => {
-      const response = await fetch(
-        'https://swapi-trybe.herokuapp.com/api/planets/',
-      );
-      const data = await response.json();
-      console.log(data);
-      setData(data.results);
-      setFilteredData(data.results);
+      const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const json = await response.json();
+      // const apiData = json.results.filter((i) => delete i.residents);
+      console.log(json);
+      setData(json.results);
+      setFilteredData(json.results);
     };
     fetchTable();
   }, []);
@@ -25,7 +28,7 @@ function Table() {
     const filteredTitleData = data.filter((item) => item.name.toLowerCase()
       .includes(textFilter));
     setData(filteredTitleData);
-  }, [textFilter]);
+  }, [data, textFilter]);
 
   // const handleClick = () => {
   //   setData([...data, textFilter]);
@@ -35,6 +38,16 @@ function Table() {
     setTitleFilter(target.value.toLowerCase());
   };
 
+  const handleNumericFilter = () => {
+    const newNumericFilter = {
+      filterType,
+      operator,
+      value,
+    };
+
+    setNumericFilter([...newNumericFilter, numericFilter]);
+  };
+
   return (
     <div>
       <form>
@@ -42,7 +55,10 @@ function Table() {
         <label htmlFor="textFilter">
           {' '}
           Coluna
-          <select data-testid="column-filter">
+          <select
+            onChange={ ({ target }) => setFilterType(target.value) }
+            data-testid="column-filter"
+          >
             <option>population</option>
             <option>orbital_period</option>
             <option>diameter</option>
@@ -52,7 +68,10 @@ function Table() {
         </label>
         <label htmlFor="order-filter">
           Operador
-          <select data-testid="comparison-filter">
+          <select
+            onChange={ ({ target }) => setOperator(target.value) }
+            data-testid="comparison-filter"
+          >
             <option>maior que</option>
             <option>menor que</option>
             <option>igual a</option>
@@ -60,8 +79,16 @@ function Table() {
         </label>
 
         <label htmlFor="value-filter">
-          <input type="number" data-testid="value-filter" />
-          <button type="submit" data-testid="button-filter">
+          <input
+            onChange={ ({ target }) => setValue(target.value) }
+            type="number"
+            data-testid="value-filter"
+          />
+          <button
+            type="submit"
+            data-testid="button-filter"
+            onClick={ handleNumericFilter }
+          >
             Filtrar
           </button>
         </label>
