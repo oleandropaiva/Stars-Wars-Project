@@ -103,9 +103,15 @@ function Table() {
           Filtrar
         </button>
       </form>
-      {numericFilter.map(filter => (<p>
-        {`${filter.filterType} ${filter
-          .operator} ${filter.value}`} </p>))};
+      {numericFilter.map((item) => (
+        <div key={ item.filterType }>
+          <p>
+            {item.filterType}
+            {item.operator}
+            {item.value}
+          </p>
+        </div>
+      ))}
       <table>
         <thead>
           <tr>
