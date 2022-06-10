@@ -4,8 +4,8 @@ import React, { /* useContext, */ useEffect, useState } from 'react';
 function Table() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [textFilter, setTitleFilter] = useState('');
-  const [filterType, setFilterType] = useState('name');
+  const [textFilter, setTextFilter] = useState('');
+  const [filterType, setFilterType] = useState(/population/i);
   const [operator, setOperator] = useState('maior que');
   const [value, setValue] = useState(0);
   const [numericFilter, setNumericFilter] = useState([]);
@@ -16,7 +16,13 @@ function Table() {
     const fetchTable = async () => {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const json = await response.json();
-      // const apiData = json.results.filter((i) => delete i.residents);
+      const apiData = json.results.filter((i) => delete i.residents);
+      setData(apiData);
+      // results.map((e) => {
+      //   delete e.residents;
+      //   return e;
+      // });
+
       console.log(json);
       setData(json.results);
       setFilteredData(json.results);
@@ -34,8 +40,8 @@ function Table() {
   //   setData([...data, textFilter]);
   // };
 
-  const handleFilter = ({ target }) => {
-    setTitleFilter(target.value.toLowerCase());
+  const handleTextFilter = ({ target }) => {
+    setTextFilter(target.value.toLowerCase());
   };
 
   const handleNumericFilter = () => {
@@ -51,7 +57,11 @@ function Table() {
   return (
     <div>
       <form>
-        <input type="text" placeholder="Search" onChange={ handleFilter } />
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={ handleTextFilter }
+        />
         <label htmlFor="textFilter">
           {' '}
           Coluna
@@ -80,12 +90,13 @@ function Table() {
 
         <label htmlFor="value-filter">
           <input
-            onChange={ ({ target }) => setValue(target.value) }
             type="number"
+            onChange={ ({ target }) => setValue(target.value) }
             data-testid="value-filter"
+            placeholder="0"
           />
           <button
-            type="submit"
+            type="button"
             data-testid="button-filter"
             onClick={ handleNumericFilter }
           >
