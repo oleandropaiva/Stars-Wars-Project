@@ -33,8 +33,26 @@ function Table() {
   useEffect(() => {
     const filteredTitleData = data.filter((item) => item.name.toLowerCase()
       .includes(textFilter));
-    setFilteredData(filteredTitleData);
-  }, [data, textFilter]);
+
+    // const filteredPopulationData = data.filter((item) => item.population
+
+    // const resultFiltered = numericFilter.reduce((acc, filter) => {
+    //   return acc.filter((item) => {
+    //     switch (filter.operator) {
+    //     case 'maior que':
+    //       return item[filter.filterType] > Number(filter.value);
+    //     case 'menor que':
+    //       return item[filter.filterType] < Number(filter.value);
+    //     case 'igual a':
+    //       return item[filter.filterType] === Number(filter.value);
+    //     default:
+    //       return true;
+    //     }
+    //   }
+    //   )}, filteredTitleData);
+
+    setFilteredData(resultFiltered);
+  }, [data, textFilter, numericFilter]);
 
   // const handleClick = () => {
   //   setData([...data, textFilter]);
@@ -103,14 +121,14 @@ function Table() {
           Filtrar
         </button>
       </form>
-      {numericFilter.map((item) => (
-        <div key={ item.filterType }>
-          <p>
-            {item.filterType}
-            {item.operator}
-            {item.value}
-          </p>
-        </div>
+      {numericFilter.map((filter, index) => (
+        <p key={ `${filter.filterType}-${index}` }>
+          {`
+        ${filter.filterType}
+        ${filter.operator}
+        ${filter.value}
+      `}
+        </p>
       ))}
       <table>
         <thead>
