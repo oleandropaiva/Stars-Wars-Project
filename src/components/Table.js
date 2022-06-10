@@ -61,6 +61,7 @@ function Table() {
           type="text"
           placeholder="Search"
           onChange={ handleTextFilter }
+          data-testid="name-filter"
         />
         <label htmlFor="textFilter">
           {' '}
@@ -88,22 +89,23 @@ function Table() {
           </select>
         </label>
 
-        <label htmlFor="value-filter">
-          <input
-            type="number"
-            onChange={ ({ target }) => setValue(target.value) }
-            data-testid="value-filter"
-            placeholder="0"
-          />
-          <button
-            type="button"
-            data-testid="button-filter"
-            onClick={ handleNumericFilter }
-          >
-            Filtrar
-          </button>
-        </label>
+        <input
+          type="number"
+          onChange={ ({ target }) => setValue(target.value) }
+          data-testid="value-filter"
+          placeholder="0"
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleNumericFilter }
+        >
+          Filtrar
+        </button>
       </form>
+      {numericFilter.map(filter => (<p>
+        {`${filter.filterType} ${filter
+          .operator} ${filter.value}`} </p>))};
       <table>
         <thead>
           <tr>
