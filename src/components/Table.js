@@ -36,20 +36,18 @@ function Table() {
 
     // const filteredPopulationData = data.filter((item) => item.population
 
-    // const resultFiltered = numericFilter.reduce((acc, filter) => {
-    //   return acc.filter((item) => {
-    //     switch (filter.operator) {
-    //     case 'maior que':
-    //       return item[filter.filterType] > Number(filter.value);
-    //     case 'menor que':
-    //       return item[filter.filterType] < Number(filter.value);
-    //     case 'igual a':
-    //       return item[filter.filterType] === Number(filter.value);
-    //     default:
-    //       return true;
-    //     }
-    //   }
-    //   )}, filteredTitleData);
+    const resultFiltered = numericFilter.reduce((acc, filter) => acc.filter((item) => {
+      switch (filter.operator) {
+      case 'maior que':
+        return item[filter.filterType] > Number(filter.value);
+      case 'menor que':
+        return item[filter.filterType] < Number(filter.value);
+      case 'igual a':
+        return item[filter.filterType] === Number(filter.value);
+      default:
+        return true;
+      }
+    }), filteredTitleData);
 
     setFilteredData(resultFiltered);
   }, [data, textFilter, numericFilter]);
