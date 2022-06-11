@@ -97,6 +97,7 @@ function Table() {
 
         <input
           type="number"
+          value="0"
           onChange={ ({ target }) => setValue(target.value) }
           data-testid="value-filter"
           placeholder="0"
