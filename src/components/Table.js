@@ -1,27 +1,22 @@
-import React, { /* useContext, */ useEffect, useState } from 'react';
-// import StarsWarsContext from '../Context/StarsWarsContext';
+import React, { useEffect, useState } from 'react';
 
 function Table() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [textFilter, setTextFilter] = useState('');
-  const [filterType, setFilterType] = useState(/population/i);
+  const [filterType, setFilterType] = useState('population');
   const [operator, setOperator] = useState('maior que');
   const [value, setValue] = useState(0);
   const [numericFilter, setNumericFilter] = useState([]);
 
-  /*  const { data, setData } useContext(StarsWarsContext) */
-
   useEffect(() => {
     const fetchTable = async () => {
-      const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const response = await fetch(
+        'https://swapi-trybe.herokuapp.com/api/planets/',
+      );
       const json = await response.json();
       const apiData = json.results.filter((i) => delete i.residents);
       setData(apiData);
-      // results.map((e) => {
-      //   delete e.residents;
-      //   return e;
-      // });
 
       console.log(json);
       setData(json.results);
@@ -33,8 +28,6 @@ function Table() {
   useEffect(() => {
     const filteredTitleData = data.filter((item) => item.name.toLowerCase()
       .includes(textFilter));
-
-    // const filteredPopulationData = data.filter((item) => item.population
 
     const resultFiltered = numericFilter.reduce((acc, filter) => acc.filter((item) => {
       switch (filter.operator) {
@@ -52,10 +45,6 @@ function Table() {
     setFilteredData(resultFiltered);
   }, [data, textFilter, numericFilter]);
 
-  // const handleClick = () => {
-  //   setData([...data, textFilter]);
-  // };
-
   const handleTextFilter = ({ target }) => {
     setTextFilter(target.value.toLowerCase());
   };
@@ -65,6 +54,7 @@ function Table() {
       filterType,
       operator,
       value,
+
     };
 
     setNumericFilter([...newNumericFilter, numericFilter]);
