@@ -26,22 +26,25 @@ function Table() {
   }, []);
 
   useEffect(() => {
-    const filteredTitleData = data.filter((item) => item.name.toLowerCase()
-      .includes(textFilter));
+    const filteredTitleData = data.filter((item) => item.name
+      .toLowerCase().includes(textFilter));
 
-    const resultFiltered = numericFilter.reduce((acc, filter) => acc.filter((item) => {
-      console.log(filter.operator);
-      switch (filter.operator) {
-      case 'maior que':
-        return Number(item[filter.filterType]) > Number(filter.value);
-      case 'menor que':
-        return Number(item[filter.filterType]) < Number(filter.value);
-      case 'igual a':
-        return Number(item[filter.filterType]) === Number(filter.value);
-      default:
-        return true;
-      }
-    }), filteredTitleData);
+    const resultFiltered = numericFilter.reduce(
+      (acc, filter) => acc.filter((item) => {
+        console.log(filter.operator);
+        switch (filter.operator) {
+        case 'maior que':
+          return Number(item[filter.filterType]) > Number(filter.value);
+        case 'menor que':
+          return Number(item[filter.filterType]) < Number(filter.value);
+        case 'igual a':
+          return Number(item[filter.filterType]) === Number(filter.value);
+        default:
+          return true;
+        }
+      }),
+      filteredTitleData,
+    );
 
     setFilteredData(resultFiltered);
   }, [data, textFilter, numericFilter]);
