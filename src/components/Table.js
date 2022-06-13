@@ -18,7 +18,7 @@ function Table() {
       const apiData = json.results.filter((i) => delete i.residents);
       setData(apiData);
 
-      console.log(json);
+      // console.log(json);
       setData(json.results);
       setFilteredData(json.results);
     };
@@ -30,13 +30,14 @@ function Table() {
       .includes(textFilter));
 
     const resultFiltered = numericFilter.reduce((acc, filter) => acc.filter((item) => {
+      console.log(filter.operator);
       switch (filter.operator) {
       case 'maior que':
-        return item[filter.filterType] > Number(filter.value);
+        return Number(item[filter.filterType]) > Number(filter.value);
       case 'menor que':
-        return item[filter.filterType] < Number(filter.value);
+        return Number(item[filter.filterType]) < Number(filter.value);
       case 'igual a':
-        return item[filter.filterType] === Number(filter.value);
+        return Number(item[filter.filterType]) === Number(filter.value);
       default:
         return true;
       }
@@ -54,10 +55,9 @@ function Table() {
       filterType,
       operator,
       value,
-
     };
 
-    setNumericFilter([...newNumericFilter, numericFilter]);
+    setNumericFilter([...numericFilter, newNumericFilter]);
   };
 
   return (
@@ -73,6 +73,7 @@ function Table() {
           {' '}
           Coluna
           <select
+            value={ filterType }
             onChange={ ({ target }) => setFilterType(target.value) }
             data-testid="column-filter"
           >
@@ -86,6 +87,7 @@ function Table() {
         <label htmlFor="order-filter">
           Operador
           <select
+            value={ operator }
             onChange={ ({ target }) => setOperator(target.value) }
             data-testid="comparison-filter"
           >
@@ -97,7 +99,7 @@ function Table() {
 
         <input
           type="number"
-          value="0"
+          value={ value }
           onChange={ ({ target }) => setValue(target.value) }
           data-testid="value-filter"
           placeholder="0"
