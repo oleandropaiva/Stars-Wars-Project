@@ -8,6 +8,8 @@ function Table() {
   const [operator, setOperator] = useState('maior que');
   const [value, setValue] = useState(0);
   const [numericFilter, setNumericFilter] = useState([]);
+  const [column, setColumn] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
 
   useEffect(() => {
     const fetchTable = async () => {
@@ -59,8 +61,12 @@ function Table() {
       operator,
       value,
     };
-
+    const filterDelete = column.filter((item) => item !== filterType);
+    setColumn(filterDelete);
     setNumericFilter([...numericFilter, newNumericFilter]);
+    setFilterType('population');
+    setOperator('maior que');
+    setValue(0);
   };
 
   return (
@@ -80,11 +86,7 @@ function Table() {
             onChange={ ({ target }) => setFilterType(target.value) }
             data-testid="column-filter"
           >
-            <option>population</option>
-            <option>orbital_period</option>
-            <option>diameter</option>
-            <option>rotation_period</option>
-            <option>surface_water</option>
+            { column.map((item, index) => <option key={ index }>{ item }</option>)}
           </select>
         </label>
         <label htmlFor="order-filter">
