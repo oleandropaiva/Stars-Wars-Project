@@ -11,7 +11,8 @@ function Table() {
   const [numericFilter, setNumericFilter] = useState([]);
   const [column, setColumn] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-  const [valueOperator, setValueOperator] = useState(['maior que', 'menor que', 'igual a']);
+  const [valueOperator, setValueOperator] = useState([
+    'maior que', 'menor que', 'igual a']);
 
   useEffect(() => {
     const fetchTable = async () => {
