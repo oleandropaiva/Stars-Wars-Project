@@ -1,3 +1,4 @@
+// import { click } from '@testing-library/user-event/dist/click';
 import React, { useEffect, useState } from 'react';
 
 function Table() {
@@ -10,6 +11,7 @@ function Table() {
   const [numericFilter, setNumericFilter] = useState([]);
   const [column, setColumn] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [valueOperator, setValueOperator] = useState(['maior que', 'menor que', 'igual a']);
 
   useEffect(() => {
     const fetchTable = async () => {
@@ -69,6 +71,17 @@ function Table() {
     setValue(0);
   };
 
+  function clickRemove() {
+    setNumericFilter([]);
+    setValue('0');
+  }
+
+  function deleteFilter(filter) {
+    setNumericFilter(numericFilter.filter((item) => item !== filter));
+    setColumn([...column, filter.column]);
+    setValueOperator([...valueOperator, filter.valueOperator]);
+  }
+
   return (
     <div>
       <form>
@@ -92,13 +105,15 @@ function Table() {
         <label htmlFor="order-filter">
           Operador
           <select
-            value={ operator }
+            // value={ operator }
             onChange={ ({ target }) => setOperator(target.value) }
             data-testid="comparison-filter"
           >
-            <option>maior que</option>
+            { valueOperator.map((item, index) => <option key={ index }>{ item }</option>)}
+
+            {/* <option>maior que</option>
             <option>menor que</option>
-            <option>igual a</option>
+            <option>igual a</option> */}
           </select>
         </label>
 
@@ -116,14 +131,33 @@ function Table() {
         >
           Filtrar
         </button>
+
+        <button
+          type="button"
+          data-testid="button-remove-filters"
+          onClick={ clickRemove }
+        >
+          Remover Filtros
+
+        </button>
+
       </form>
       {numericFilter.map((filter, index) => (
-        <p key={ `${filter.filterType}-${index}` }>
+        <p
+          key={ `${filter.filterType}-${index}` }
+          data-testid="filter"
+        >
           {`
         ${filter.filterType}
         ${filter.operator}
         ${filter.value}
       `}
+          <button
+            type="button"
+            onClick={ () => deleteFilter(filter) }
+          >
+            Excluir
+          </button>
         </p>
       ))}
       <table>
