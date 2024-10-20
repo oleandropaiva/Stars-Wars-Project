@@ -1,4 +1,4 @@
-Nesse projeto, você será capaz de:
+## Habilidades:
 
 - Utilizar a Context API do React para gerenciar estado.
 - Utilizar o React Hook useState;
